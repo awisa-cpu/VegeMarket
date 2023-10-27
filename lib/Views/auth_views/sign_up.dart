@@ -10,6 +10,8 @@ class SignUpView extends StatefulWidget {
 class _SignUpViewState extends State<SignUpView> {
   late final TextEditingController _emailCon;
   late final TextEditingController _passwordCon;
+  late final TextEditingController _fullName;
+
   bool _showPassword = false;
 
   @override
@@ -17,12 +19,14 @@ class _SignUpViewState extends State<SignUpView> {
     super.initState();
     _emailCon = TextEditingController();
     _passwordCon = TextEditingController();
+    _fullName = TextEditingController();
   }
 
   @override
   void dispose() {
     _emailCon.dispose();
     _passwordCon.dispose();
+    _fullName.dispose();
     super.dispose();
   }
 
@@ -33,6 +37,9 @@ class _SignUpViewState extends State<SignUpView> {
         padding: const EdgeInsets.all(14.5),
         child: Column(
           children: [
+            const SizedBox(
+              height: 70,
+            ),
             //message
             const Text('Sign Up For Free'),
 
@@ -41,9 +48,46 @@ class _SignUpViewState extends State<SignUpView> {
               height: 25.5,
             ),
 
+            //name field
+            TextField(
+              controller: _fullName,
+              decoration: const InputDecoration(
+                hintText: 'Full Name',
+                contentPadding: EdgeInsets.symmetric(horizontal: 10.5),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10.5),
+                  ),
+                ),
+              ),
+              keyboardType: TextInputType.text,
+            ),
+
+            const SizedBox(
+              height: 20.5,
+            ),
+
             //email field
             TextField(
               controller: _emailCon,
+              decoration: const InputDecoration(
+                hintText: 'Email',
+                contentPadding: EdgeInsets.symmetric(horizontal: 10.5),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10.5),
+                  ),
+                ),
+              ),
+            ),
+            //
+            const SizedBox(
+              height: 20.5,
+            ),
+
+            //password field
+            TextField(
+              controller: _passwordCon,
               decoration: InputDecoration(
                 suffixIcon: IconButton(
                   onPressed: () {
@@ -55,21 +99,13 @@ class _SignUpViewState extends State<SignUpView> {
                     _showPassword ? Icons.visibility : Icons.visibility_off,
                   ),
                 ),
-                hintText: 'Email',
-                contentPadding: const EdgeInsets.symmetric(horizontal: 10.5),
-              ),
-            ),
-            //
-            const SizedBox(
-              height: 15.5,
-            ),
-
-            //password field
-            TextField(
-              controller: _passwordCon,
-              decoration: const InputDecoration(
                 hintText: 'Password',
-                contentPadding: EdgeInsets.symmetric(horizontal: 10.5),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 10.5),
+                border: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10.5),
+                  ),
+                ),
               ),
             ),
           ],
