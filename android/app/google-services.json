@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "287347048262",
+    "project_id": "vegemarket",
+    "storage_bucket": "vegemarket.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:287347048262:android:06b0326ddbc6ce4439ef47",
+        "android_client_info": {
+          "package_name": "com.example.shopcart"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6ofvCNiqu4VsXWC6-o-fUtu0w1h7zkws"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
