@@ -15,3 +15,4 @@ class UserDisabledException implements Exception {}
 class GenericAuthException implements Exception {}
 
 class UserNotLoggedInException implements Exception {}
+

@@ -4,13 +4,13 @@ abstract class AuthProvider{
 
   Future<void> initializeApp();
 
-  Future<void> signup({required String email, required String password});
+  Future<AuthUser?> signup({required String email, required String password});
 
   Future<AuthUser?> login({required String email, required String password});
 
   Future<void> logout();
 
-  Future<void> forgotPassword();
+  Future<void> forgotPassword({required String email});
 
   Future<void> verifyEmail();
 

@@ -12,7 +12,8 @@ class AuthService implements AuthProvider {
       AuthService(provider: FirebaseAuthProvider());
 
   @override
-  Future<void> forgotPassword() async => await provider.forgotPassword();
+  Future<void> forgotPassword({required String email}) async =>
+      await provider.forgotPassword(email: email);
 
   @override
   Future<void> initializeApp() async => await provider.initializeApp();
@@ -28,14 +29,14 @@ class AuthService implements AuthProvider {
   Future<void> logout() async => await provider.logout();
 
   @override
-  Future<void> signup({
+  Future<AuthUser?> signup({
     required String email,
     required String password,
   }) async =>
       await provider.signup(email: email, password: password);
 
   @override
-  Future<void> verifyEmail() async => await  provider.verifyEmail();
+  Future<void> verifyEmail() async => await provider.verifyEmail();
 
   @override
   AuthUser? get currentUser => provider.currentUser;

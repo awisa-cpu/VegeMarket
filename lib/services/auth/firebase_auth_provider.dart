@@ -1,17 +1,25 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:shopcart/firebase_options.dart';
 import 'package:shopcart/models/auth_user.dart';
 import 'package:shopcart/services/auth/auth_provider.dart';
 import 'package:shopcart/utilities/Exceptions/firebase_auth_exceptions.dart';
 
 class FirebaseAuthProvider implements AuthProvider {
   @override
-  Future<void> forgotPassword() {
-    throw UnimplementedError();
+  Future<void> forgotPassword({required String email}) async {
+    try {
+      //re-work on this implementation
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (_) {
+      throw GenericAuthException();
+    }
   }
 
   @override
-  Future<void> initializeApp() {
-    throw Exception();
+  Future<void> initializeApp() async {
+    await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform);
   }
 
   @override
@@ -60,13 +68,21 @@ class FirebaseAuthProvider implements AuthProvider {
   }
 
   @override
-  Future<void> signup({
+  Future<AuthUser?> signup({
     required String email,
     required String password,
   }) async {
     try {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
+
+      final user = FirebaseAuth.instance.currentUser;
+
+      if (user != null) {
+        return AuthUser.fromFirebase(user);
+      } else {
+        return null;
+      }
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case 'email-already-in-use':
@@ -90,7 +106,7 @@ class FirebaseAuthProvider implements AuthProvider {
     if (user != null) {
       await user.sendEmailVerification();
     } else {
-      throw Exception('no user yet');
+      throw UserNotFoundException();
     }
   }
 
