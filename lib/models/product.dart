@@ -9,6 +9,7 @@ class Product {
   final double price;
    double? weight;
   String? image;
+  final double rating;
 
 
   Product({
@@ -18,6 +19,7 @@ class Product {
     this.description,
     required this.price,
     this.image,
-    this.weight
+    this.weight,
+    required this.rating,
   });
 }
