@@ -10,22 +10,32 @@ class HomeProduct extends StatelessWidget {
   Widget build(BuildContext context) {
     final allProducts = context.read<ProductProvider>().products;
 
-    //
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
-        actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.account_circle))
-        ],
-      ),
-
       //body
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 13.5, vertical: 12),
+          padding: const EdgeInsets.only(
+            left: 13.5,
+            right: 13.5,
+            bottom: 12,
+            top: 40,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              //app bar
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
+                  IconButton(
+                      onPressed: () {}, icon: const Icon(Icons.account_circle))
+                ],
+              ),
+
+              const SizedBox(
+                height: 10,
+              ),
 
               //
               const Text(
