@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shopcart/models/product.dart';
+import 'package:shopcart/utilities/routes/routes_constants.dart';
 
 class SingleProduct extends StatelessWidget {
   const SingleProduct({
@@ -21,7 +22,16 @@ class SingleProduct extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Image.asset(product.image!),
+            GestureDetector(
+                onTap: () {
+                 
+                  Navigator.of(context).pushNamedAndRemoveUntil(detailedProduct, (route) => false, arguments: product);
+                },
+                child: Image.asset(
+                  product.image!,
+                  height: 70,
+                  width: 90,
+                )),
 
             //
             Column(
@@ -49,22 +59,17 @@ class SingleProduct extends StatelessWidget {
                 Text('\$${product.price.toString()}'),
 
                 //
-                GestureDetector(
-                  onTap: () {
-                    //add to cart
-                  },
-                  child: Container(
-                    height: 23,
-                    width: 22,
-                    decoration: BoxDecoration(
-                      color: Colors.green,
-                      borderRadius: BorderRadius.circular(5.5),
-                    ),
-                    child: const Icon(
-                      Icons.add,
-                      size: 15,
-                      color: Colors.white,
-                    ),
+                Container(
+                  height: 23,
+                  width: 22,
+                  decoration: BoxDecoration(
+                    color: Colors.green,
+                    borderRadius: BorderRadius.circular(5.5),
+                  ),
+                  child: const Icon(
+                    Icons.add,
+                    size: 15,
+                    color: Colors.white,
                   ),
                 )
               ],
