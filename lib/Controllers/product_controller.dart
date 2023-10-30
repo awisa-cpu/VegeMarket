@@ -18,10 +18,9 @@ class ProductProvider extends ChangeNotifier {
   //to retrive all the products
   UnmodifiableListView<Product> get products => UnmodifiableListView(_products);
 
-  List<Product> getProductsByCategoryId({required int categoryId}) {
-    final newProducts = _products
-        .where((product) => product.categoryId == categoryId) as List<Product>;
-    notifyListeners();
+  Iterable<Product> getProductsByCategoryId({required int categoryId}) {
+    final newProducts =
+        _products.where((product) => product.categoryId == categoryId);
     return newProducts;
   }
 
