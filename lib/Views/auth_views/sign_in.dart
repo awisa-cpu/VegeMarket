@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shopcart/utilities/routes/routes_constants.dart';
 
 class SignInView extends StatefulWidget {
   const SignInView({super.key});
@@ -187,7 +188,10 @@ class _SignInViewState extends State<SignInView> {
 
               //login button
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context)
+                      .pushNamedAndRemoveUntil(loginPage, (route) => false);
+                },
                 child: Container(
                   width: 130,
                   height: 50,
