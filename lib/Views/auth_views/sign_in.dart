@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:shopcart/utilities/routes/routes_constants.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopcart/Controllers/auth/auth_bloc_controller.dart';
+import 'package:shopcart/Controllers/auth/auth_event.dart';
+import 'package:shopcart/Controllers/auth/auth_state.dart';
+import 'package:shopcart/utilities/Exceptions/firebase_auth_exceptions.dart';
+import 'package:shopcart/utilities/displays/snackbar.dart';
 
 class SignInView extends StatefulWidget {
   const SignInView({super.key});
@@ -31,182 +36,244 @@ class _SignInViewState extends State<SignInView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(14.5),
-          child: Column(
-            children: [
-              //
-              const SizedBox(
-                height: 200.5,
-              ),
+      body: BlocListener<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state is AuthStateLoggedOut) {
 
-              //message
-              const Text('Login To Your Account'),
+            //rework on the exceptions
+            if (state.exception is InvalidEmailException) {
+              displaySnackBar(context: context, text: 'Invalid Email');
+            } else if (state.exception is UserNotFoundException) {
+              displaySnackBar(context: context, text: 'User Not Found');
+            } else if (state.exception is WrongPasswordException) {
+              displaySnackBar(context: context, text: 'Wrong Password');
+            } else if (state.exception is UserDisabledException) {
+              displaySnackBar(context: context, text: 'User has been diabled ');
+            } else if (state.exception is InvalidLoginCredentialsException) {
+              displaySnackBar(context: context, text: 'Invalid Details');
+            } else if (state.exception is GenericAuthException) {
+              displaySnackBar(context: context, text: 'Generic Auth Error');
+            }
+          }
+        },
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(14.5),
+            child: Column(
+              children: [
+                //
+                const SizedBox(
+                  height: 200.5,
+                ),
 
-              //
-              const SizedBox(
-                height: 25.5,
-              ),
+                //message
+                const Text('Login To Your Account'),
 
-              //email field
-              TextField(
-                controller: _emailCon,
-                keyboardType: TextInputType.emailAddress,
-                decoration: const InputDecoration(
-                  hintText: 'Email',
-                  contentPadding: EdgeInsets.symmetric(horizontal: 10.5),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10.5),
+                //
+                const SizedBox(
+                  height: 25.5,
+                ),
+
+                //email field
+                TextField(
+                  controller: _emailCon,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: const InputDecoration(
+                    hintText: 'Email',
+                    contentPadding: EdgeInsets.symmetric(horizontal: 10.5),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10.5),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              //
-              const SizedBox(
-                height: 15.5,
-              ),
+                //
+                const SizedBox(
+                  height: 15.5,
+                ),
 
-              //password field
-              TextField(
-                controller: _passwordCon,
-                obscureText: _showPassword,
-                decoration: InputDecoration(
-                  hintText: 'Password',
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 10.5),
-                  border: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10.5),
+                //password field
+                TextField(
+                  controller: _passwordCon,
+                  obscureText: _showPassword,
+                  decoration: InputDecoration(
+                    hintText: 'Password',
+                    contentPadding:
+                        const EdgeInsets.symmetric(horizontal: 10.5),
+                    border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10.5),
+                      ),
+                    ),
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _showPassword = !_showPassword;
+                        });
+                      },
+                      icon: Icon(
+                        _showPassword ? Icons.visibility_off : Icons.visibility,
+                      ),
                     ),
                   ),
-                  suffixIcon: IconButton(
+                ),
+
+                //
+                const SizedBox(
+                  height: 20.5,
+                ),
+                const Text('Or Continue With'),
+
+                const SizedBox(
+                  height: 10.5,
+                ),
+
+                //other sign in options
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    //
+                    Material(
+                      borderRadius: BorderRadius.circular(10),
+                      elevation: 1.0,
+                      child: Container(
+                        width: 130,
+                        height: 50,
+                        alignment: Alignment.center,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Image.asset(
+                              'lib/images/facebook.png',
+                              width: 20.5,
+                              height: 20.5,
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            const Text(
+                              'Facebook ',
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    //
+                    const SizedBox(
+                      width: 18,
+                    ),
+
+                    //
+                    Material(
+                      borderRadius: BorderRadius.circular(10),
+                      elevation: 1.0,
+                      child: Container(
+                        width: 130,
+                        height: 50,
+                        alignment: Alignment.center,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Image.asset(
+                              'lib/images/google.jpg',
+                              width: 22.5,
+                              height: 22.5,
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            const Text(
+                              'Google ',
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+
+                //
+                const SizedBox(
+                  height: 15.5,
+                ),
+                Text(
+                  'Forgot Your Password?',
+                  style: TextStyle(color: Colors.amber.shade900),
+                ),
+
+                const SizedBox(
+                  height: 10.5,
+                ),
+
+                //login button
+                CustomButton(
+                  text: 'Login',
+                  perform: () {
+                    final email = _emailCon.text;
+                    final password = _passwordCon.text;
+
+                    context
+                        .read<AuthBloc>()
+                        .add(AuthEventSignIn(email: email, password: password));
+                  },
+                ),
+
+                const SizedBox(
+                  height: 15.4,
+                ),
+
+                //
+                TextButton(
                     onPressed: () {
-                      setState(() {
-                        _showPassword = !_showPassword;
-                      });
+                      context.read<AuthBloc>().add(AuthEventDontHaveAccount());
                     },
-                    icon: Icon(
-                      _showPassword ? Icons.visibility_off : Icons.visibility,
-                    ),
-                  ),
-                ),
-              ),
-
-              //
-              const SizedBox(
-                height: 20.5,
-              ),
-              const Text('Or Continue With'),
-
-              const SizedBox(
-                height: 10.5,
-              ),
-
-              //other sign in options
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  //
-                  Material(
-                    borderRadius: BorderRadius.circular(10),
-                    elevation: 1.0,
-                    child: Container(
-                      width: 130,
-                      height: 50,
-                      alignment: Alignment.center,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Image.asset(
-                            'lib/images/facebook.png',
-                            width: 20.5,
-                            height: 20.5,
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          const Text(
-                            'Facebook ',
-                            style: TextStyle(color: Colors.black),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  //
-                  const SizedBox(
-                    width: 18,
-                  ),
-
-                  //
-                  Material(
-                    borderRadius: BorderRadius.circular(10),
-                    elevation: 1.0,
-                    child: Container(
-                      width: 130,
-                      height: 50,
-                      alignment: Alignment.center,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Image.asset(
-                            'lib/images/google.jpg',
-                            width: 22.5,
-                            height: 22.5,
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          const Text(
-                            'Google ',
-                            style: TextStyle(color: Colors.black),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                ],
-              ),
-
-              //
-              const SizedBox(
-                height: 15.5,
-              ),
-              Text(
-                'Forgot Your Password?',
-                style: TextStyle(color: Colors.amber.shade900),
-              ),
-
-              const SizedBox(
-                height: 10.5,
-              ),
-
-              //login button
-              GestureDetector(
-                onTap: () {
-                  Navigator.of(context)
-                      .pushNamedAndRemoveUntil(loginPage, (route) => false);
-                },
-                child: Container(
-                  width: 130,
-                  height: 50,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      color: Colors.amber.shade900,
-                      borderRadius: BorderRadius.circular(20)),
-                  child: const Text(
-                    'Login ',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-              )
-            ],
+                    child: Text(
+                      'No Account? Create Account',
+                      style: TextStyle(color: Colors.amber.shade900),
+                    ))
+              ],
+            ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+typedef ButtonAction = void Function()?;
+
+class CustomButton extends StatelessWidget {
+  const CustomButton({
+    Key? key,
+    required this.text,
+    required this.perform,
+  }) : super(key: key);
+
+  final ButtonAction perform;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: perform,
+      child: Container(
+        width: 130,
+        height: 50,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: Colors.amber.shade900,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Text(
+          text,
+          style: const TextStyle(color: Colors.white),
         ),
       ),
     );

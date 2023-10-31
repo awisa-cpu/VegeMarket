@@ -8,6 +8,8 @@ class WeakPasswordException implements Exception {}
 //login exceptions
 class UserNotFoundException implements Exception {}
 
+class InvalidLoginCredentialsException implements Exception {}
+
 class WrongPasswordException implements Exception {}
 
 class UserDisabledException implements Exception {}

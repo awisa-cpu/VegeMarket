@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shopcart/Controllers/product_controller.dart';
+import 'package:shopcart/Controllers/auth/auth_bloc_controller.dart';
+import 'package:shopcart/Controllers/auth/auth_event.dart';
+import 'package:shopcart/Controllers/product_controller/product_controller.dart';
 import 'package:shopcart/Views/product_views/single_product.dart';
 
 class HomeProduct extends StatelessWidget {
@@ -29,7 +31,11 @@ class HomeProduct extends StatelessWidget {
                 children: [
                   IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
                   IconButton(
-                      onPressed: () {}, icon: const Icon(Icons.account_circle))
+                      onPressed: () {
+
+                        //implement a dialog for the user to decide
+                        context.read<AuthBloc>().add(AuthEventSignOut());
+                      }, icon: const Icon(Icons.logout))
                 ],
               ),
 

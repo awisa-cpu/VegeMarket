@@ -28,8 +28,9 @@ class FirebaseAuthProvider implements AuthProvider {
     required String password,
   }) async {
     try {
-      await FirebaseAuth.instance
+      final use = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
+      print(use.toString());
 
       final cUser = FirebaseAuth.instance.currentUser;
       if (cUser != null) {
@@ -47,6 +48,8 @@ class FirebaseAuthProvider implements AuthProvider {
           throw WrongPasswordException();
         case 'user-disabled':
           throw UserDisabledException();
+        case 'INVALID_LOGIN_CREDENTIALS':
+        
 
         default:
           throw GenericAuthException();
@@ -109,8 +112,17 @@ class FirebaseAuthProvider implements AuthProvider {
       throw UserNotFoundException();
     }
   }
+  
+  
 
   @override
-  AuthUser? get currentUser =>
-      AuthUser.fromFirebase(FirebaseAuth.instance.currentUser!);
+  AuthUser? get currentUser {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      return AuthUser.fromFirebase(user);
+    } else {
+      return null;
+    }
+  }
+
 }
