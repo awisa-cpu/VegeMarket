@@ -18,7 +18,7 @@ class SignInView extends StatefulWidget {
 class _SignInViewState extends State<SignInView> {
   late final TextEditingController _emailCon;
   late final TextEditingController _passwordCon;
-  bool _showPassword = false;
+  bool _showPassword = true;
 
   @override
   void initState() {
@@ -80,6 +80,7 @@ class _SignInViewState extends State<SignInView> {
                   controller: _emailCon,
                   keyboardType: TextInputType.emailAddress,
                   decoration: const InputDecoration(
+                    prefixIcon: Icon(Icons.email),
                     hintText: 'Email',
                     contentPadding: EdgeInsets.symmetric(horizontal: 10.5),
                     border: OutlineInputBorder(
@@ -99,6 +100,7 @@ class _SignInViewState extends State<SignInView> {
                   controller: _passwordCon,
                   obscureText: _showPassword,
                   decoration: InputDecoration(
+                    prefixIcon: const Icon(Icons.password),
                     hintText: 'Password',
                     contentPadding:
                         const EdgeInsets.symmetric(horizontal: 10.5),
@@ -249,5 +251,3 @@ class _SignInViewState extends State<SignInView> {
     );
   }
 }
-
-

@@ -71,9 +71,10 @@ class _SignUpViewState extends State<SignUpView> {
               ),
 
               //email field
-              TextField(
+              TextFormField(
                 controller: _emailCon,
                 decoration: const InputDecoration(
+                  prefixIcon: Icon(Icons.email),
                   hintText: 'Email',
                   contentPadding: EdgeInsets.symmetric(horizontal: 10.5),
                   border: OutlineInputBorder(
@@ -92,6 +93,7 @@ class _SignUpViewState extends State<SignUpView> {
               TextField(
                 controller: _passwordCon,
                 decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.password),
                   suffixIcon: IconButton(
                     onPressed: () {
                       setState(() {
