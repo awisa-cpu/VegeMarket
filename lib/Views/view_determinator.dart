@@ -6,7 +6,7 @@ import 'package:shopcart/Controllers/auth/auth_state.dart';
 import 'package:shopcart/Views/auth_views/sign_in.dart';
 import 'package:shopcart/Views/auth_views/sign_up.dart';
 import 'package:shopcart/Views/product_views/home_product.dart';
-import 'package:shopcart/utilities/displays/snackbar.dart';
+import 'package:shopcart/utilities/displays/overlay_controller.dart';
 
 class ViewDeterminator extends StatelessWidget {
   const ViewDeterminator({super.key});
@@ -44,7 +44,10 @@ class ViewDeterminator extends StatelessWidget {
       listener: (context, state) {
         if (state is AuthStateLoggedOut) {
           if (state.isLoading == true) {
-            displaySnackBar(context: context, text: 'loading ....');
+            OverLayController()
+                .showScreen(text: 'Loading ...', context: context);
+          } else {
+            OverLayController().closeScreen();
           }
         }
       },
