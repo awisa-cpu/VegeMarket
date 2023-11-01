@@ -24,8 +24,11 @@ class SingleProduct extends StatelessWidget {
           children: [
             GestureDetector(
                 onTap: () {
-                 
-                  Navigator.of(context).pushNamedAndRemoveUntil(detailedProduct, (route) => false, arguments: product);
+                  //
+
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                      detailedProduct, (route) => false,
+                      arguments: product);
                 },
                 child: Image.asset(
                   product.image!,

@@ -24,6 +24,11 @@ class ProductProvider extends ChangeNotifier {
     return newProducts;
   }
 
+  Product getProductById({ required int id}){
+    
+    return _products.firstWhere((element) => element.id == id);
+  }
+
   void addToCart({required Product product}) {
     _cart.add(product);
     notifyListeners();

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shopcart/firebase_options.dart';
@@ -30,7 +32,7 @@ class FirebaseAuthProvider implements AuthProvider {
     try {
       final use = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-      print(use.toString());
+      log(use.toString());
 
       final cUser = FirebaseAuth.instance.currentUser;
       if (cUser != null) {

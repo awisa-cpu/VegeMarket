@@ -3,10 +3,10 @@ import 'package:shopcart/Controllers/auth/auth_event.dart';
 import 'package:shopcart/Controllers/auth/auth_state.dart';
 import 'package:shopcart/services/auth/auth_provider.dart';
 
-class AuthBloc extends Bloc<AuthEvent, AuthState> {
+class AuthenticationBloc extends Bloc<AuthEvent, AuthState> {
   final AuthProvider provider;
 
-  AuthBloc({required this.provider})
+  AuthenticationBloc({required this.provider})
       : super(AuthStateInitialize(loading: false)) {
     //app initailization
     on<AuthEventInitialize>((event, emit) async {
@@ -48,7 +48,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         final email = event.email;
         final password = event.password;
 
-       await provider.login(email: email, password: password);
+        await provider.login(email: email, password: password);
         emit(AuthStateLoggedOut(loading: false));
         emit(AuthStateLoggedIn());
       } on Exception catch (e) {
@@ -68,8 +68,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     on<AuthEventHaveAccount>((event, emit) => emit(AuthStateHaveAccount()));
 
-    
-    on<AuthEventDontHaveAccount>((event, emit) => emit(AuthStateDontHaveAccount()));
+    on<AuthEventDontHaveAccount>(
+        (event, emit) => emit(AuthStateDontHaveAccount()));
 
     //verify email
     on<AuthEventEmailVerify>((event, emit) => null);

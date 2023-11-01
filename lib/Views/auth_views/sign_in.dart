@@ -6,6 +6,8 @@ import 'package:shopcart/Controllers/auth/auth_state.dart';
 import 'package:shopcart/utilities/Exceptions/firebase_auth_exceptions.dart';
 import 'package:shopcart/utilities/displays/snackbar.dart';
 
+import '../../utilities/widgets/custom_button.dart';
+
 class SignInView extends StatefulWidget {
   const SignInView({super.key});
 
@@ -36,10 +38,9 @@ class _SignInViewState extends State<SignInView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocListener<AuthBloc, AuthState>(
+      body: BlocListener<AuthenticationBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthStateLoggedOut) {
-
             //rework on the exceptions
             if (state.exception is InvalidEmailException) {
               displaySnackBar(context: context, text: 'Invalid Email');
@@ -220,7 +221,7 @@ class _SignInViewState extends State<SignInView> {
                     final password = _passwordCon.text;
 
                     context
-                        .read<AuthBloc>()
+                        .read<AuthenticationBloc>()
                         .add(AuthEventSignIn(email: email, password: password));
                   },
                 ),
@@ -232,7 +233,9 @@ class _SignInViewState extends State<SignInView> {
                 //
                 TextButton(
                     onPressed: () {
-                      context.read<AuthBloc>().add(AuthEventDontHaveAccount());
+                      context
+                          .read<AuthenticationBloc>()
+                          .add(AuthEventDontHaveAccount());
                     },
                     child: Text(
                       'No Account? Create Account',
@@ -247,35 +250,4 @@ class _SignInViewState extends State<SignInView> {
   }
 }
 
-typedef ButtonAction = void Function()?;
 
-class CustomButton extends StatelessWidget {
-  const CustomButton({
-    Key? key,
-    required this.text,
-    required this.perform,
-  }) : super(key: key);
-
-  final ButtonAction perform;
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: perform,
-      child: Container(
-        width: 130,
-        height: 50,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: Colors.amber.shade900,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Text(
-          text,
-          style: const TextStyle(color: Colors.white),
-        ),
-      ),
-    );
-  }
-}

@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopcart/Controllers/auth/auth_bloc_controller.dart';
 import 'package:shopcart/Controllers/auth/auth_event.dart';
-import 'package:shopcart/Controllers/product_controller/product_controller.dart';
+import 'package:shopcart/Controllers/product_controller/product_provider.dart';
 import 'package:shopcart/Views/product_views/single_product.dart';
+
 
 class HomeProduct extends StatelessWidget {
   const HomeProduct({super.key});
@@ -11,6 +12,7 @@ class HomeProduct extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final allProducts = context.read<ProductProvider>().products;
+    //
 
     return Scaffold(
       //body
@@ -32,12 +34,15 @@ class HomeProduct extends StatelessWidget {
                   IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
                   IconButton(
                       onPressed: () {
-
                         //implement a dialog for the user to decide
-                        context.read<AuthBloc>().add(AuthEventSignOut());
-                      }, icon: const Icon(Icons.logout))
+                        context
+                            .read<AuthenticationBloc>()
+                            .add(AuthEventSignOut());
+                      },
+                      icon: const Icon(Icons.logout))
                 ],
               ),
+
 
               const SizedBox(
                 height: 10,
@@ -84,4 +89,5 @@ class HomeProduct extends StatelessWidget {
       //bottom nav bar
     );
   }
+
 }

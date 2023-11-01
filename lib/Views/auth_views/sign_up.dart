@@ -3,9 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopcart/Controllers/auth/auth_bloc_controller.dart';
 import 'package:shopcart/Controllers/auth/auth_event.dart';
 import 'package:shopcart/Controllers/auth/auth_state.dart';
-import 'package:shopcart/Views/auth_views/sign_in.dart';
 import 'package:shopcart/utilities/Exceptions/firebase_auth_exceptions.dart';
 import 'package:shopcart/utilities/displays/snackbar.dart';
+
+import '../../utilities/widgets/custom_button.dart';
 
 class SignUpView extends StatefulWidget {
   const SignUpView({super.key});
@@ -40,7 +41,7 @@ class _SignUpViewState extends State<SignUpView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocListener<AuthBloc, AuthState>(
+      body: BlocListener<AuthenticationBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthStateLoggedOut) {
             if (state.exception is EmailAlreadyInUseException) {
@@ -166,7 +167,7 @@ class _SignUpViewState extends State<SignUpView> {
                   final password = _passwordCon.text;
 
                   context
-                      .read<AuthBloc>()
+                      .read<AuthenticationBloc>()
                       .add(AuthEventSignup(email: email, password: password));
                 },
               ),
@@ -179,7 +180,9 @@ class _SignUpViewState extends State<SignUpView> {
               //have account?
               TextButton(
                   onPressed: () {
-                    context.read<AuthBloc>().add(AuthEventHaveAccount());
+                    context
+                        .read<AuthenticationBloc>()
+                        .add(AuthEventHaveAccount());
                   },
                   child: Text(
                     'Already have an account?',

@@ -6,6 +6,7 @@ class AuthUser {
   final String email;
   final bool isEmailVerified;
 
+
   AuthUser._private({
     required this.uid,
     required this.displayName,
