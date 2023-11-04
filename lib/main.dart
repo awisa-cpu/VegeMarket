@@ -20,7 +20,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<AuthenticationBloc>(
-
       //to provide access to auth provider
       create: (_) => AuthenticationBloc(provider: FirebaseAuthProvider()),
 
