@@ -2,9 +2,10 @@ import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopcart/Controllers/product_controller/product_provider.dart';
+import 'package:shopcart/Views/product_views/cart.dart';
+import 'package:shopcart/Views/product_views/home_product.dart';
 import 'package:shopcart/Views/product_views/single_product.dart';
 import 'package:shopcart/models/product.dart';
-import 'package:shopcart/utilities/routes/routes_constants.dart';
 
 class ProductDetailedPage extends StatefulWidget {
   final Product product;
@@ -42,19 +43,81 @@ class _ProductDetailedPageState extends State<ProductDetailedPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       //back button
-                      IconButton(
-                        onPressed: () {
-                          Navigator.of(context).pushNamedAndRemoveUntil(
-                              goHome, (route) => false);
-                        },
-                        icon: const Icon(Icons.chevron_left),
+                      Row(
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              // Navigator.of(context).pushNamedAndRemoveUntil(
+                              //     goHome, (route) => false);
+
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const HomeProduct(),
+                                  ),
+                                  (route) => false);
+                            },
+                            icon: const Icon(Icons.chevron_left),
+                          ),
+
+                          //
+                          const Text(
+                            'Details',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ],
                       ),
 
-                      //profile button
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.account_circle),
-                      )
+                      //
+
+                      //
+                      Stack(
+                        children: [
+                          //
+                          Positioned(
+                            left: 15,
+                            child: Container(
+                              height: 25,
+                              width: 25,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.green,
+                              ),
+                              child: Center(
+                                child: Consumer<ProductProvider>(
+                                  builder: (context, value, _) {
+                                    return Text(
+                                      value.totalSelectedItems.toString(),
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          //
+                          IconButton(
+                            enableFeedback: false,
+                            onPressed: () {
+                              //route to the carts page
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const CartPage(),
+                                ),
+                              );
+                            },
+                            icon: const Icon(
+                              Icons.shopping_cart,
+                              size: 40,
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
 
