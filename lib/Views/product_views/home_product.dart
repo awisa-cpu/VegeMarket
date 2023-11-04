@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shopcart/Controllers/auth/auth_bloc_controller.dart';
-import 'package:shopcart/Controllers/auth/auth_event.dart';
 import 'package:shopcart/Controllers/product_controller/product_provider.dart';
+import 'package:shopcart/Views/product_views/cart.dart';
 import 'package:shopcart/Views/product_views/single_product.dart';
-import 'package:shopcart/utilities/Dialogs_overlays/signout_dialog.dart';
 
-class HomeProduct extends StatelessWidget {
+class HomeProduct extends StatefulWidget {
   const HomeProduct({super.key});
 
+  @override
+  State<HomeProduct> createState() => _HomeProductState();
+}
+
+class _HomeProductState extends State<HomeProduct> {
   @override
   Widget build(BuildContext context) {
     final allProducts = context.read<ProductProvider>().products;
@@ -28,31 +31,65 @@ class HomeProduct extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //app bar
+              const SizedBox(
+                height: 10,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  //
                   IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
-                  IconButton(
-                    onPressed: () async {
-                      final value = await showSignOutDialog(
-                        context: context,
-                        title: "Sign Out ",
-                        content: "Are you sure you want to sign out?",
-                      );
+
+                  Stack(
+                    children: [
+                      //
+                      Positioned(
+                        left: 15,
+                        child: Container(
+                          height: 25,
+                          width: 25,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.green,
+                          ),
+                          child: Center(
+                            child: Consumer<ProductProvider>(
+                              builder: (context, value, _) {
+                                return Text(
+                                  value.totalSelectedItems.toString(),
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
 
                       //
-                      if (value != null && value == true) {
-                        Future.delayed(
-                          Duration.zero,
-                        ).then((_) {
-                          context
-                              .read<AuthenticationBloc>()
-                              .add(AuthEventSignOut());
-                        });
-                      }
-                    },
-                    icon: const Icon(Icons.logout),
-                  )
+                      IconButton(
+                        enableFeedback: false,
+                        onPressed: () {
+                          //route to the carts page
+                          
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const CartPage(),
+                            ),
+                          );
+                        },
+                        icon: const Icon(
+                          Icons.shopping_cart,
+                          size: 40,
+                        ),
+                      ),
+                    ],
+                  ),
+                
+                
                 ],
               ),
 
