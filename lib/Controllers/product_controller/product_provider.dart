@@ -26,36 +26,39 @@ class ProductProvider extends ChangeNotifier {
     return newProducts;
   }
 
-  Product getProductById({ required int id}){
-    
+  Product getProductById({required int id}) {
     return _products.firstWhere((element) => element.id == id);
   }
 
   void addToCart({required Product product}) {
     _cart.add(product);
-    totalSelectedItems = totalSelectedItems +1;
+    totalSelectedItems = totalSelectedItems + 1;
+    _increasePrice(product);
     notifyListeners();
   }
 
   void removeFromCart({required Product product}) {
     if (_cart.contains(product)) {
       _cart.remove(product);
+      _decreasePrice(product);
+      totalSelectedItems--;
     }
+    notifyListeners();
+  }
+
+  void _decreasePrice(Product product) {
+    totalPrice = totalPrice - product.price;
+    notifyListeners();
+  }
+
+  void _increasePrice(Product product) {
+    totalPrice = totalPrice + product.price;
     notifyListeners();
   }
 
   void clearCart() {
     _cart.clear();
+    totalSelectedItems = 0;
     notifyListeners();
-  }
-
-  double getCartTotalPrice() {
-    if (_cart.isNotEmpty) {
-      for (var item in _cart) {
-        totalPrice = totalPrice + item.price;
-      }
-    }
-    notifyListeners();
-    return totalPrice;
   }
 }
