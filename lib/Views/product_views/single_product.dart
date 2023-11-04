@@ -1,6 +1,9 @@
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shopcart/Controllers/product_controller/product_provider.dart';
+import 'package:shopcart/Views/product_views/product_detailed_page.dart';
 import 'package:shopcart/models/product.dart';
-import 'package:shopcart/utilities/routes/routes_constants.dart';
 
 class SingleProduct extends StatelessWidget {
   const SingleProduct({
@@ -12,6 +15,7 @@ class SingleProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = context.read<ProductProvider>();
     //
     return Material(
       elevation: 1.0,
@@ -26,9 +30,15 @@ class SingleProduct extends StatelessWidget {
                 onTap: () {
                   //
 
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                      detailedProduct, (route) => false,
-                      arguments: product);
+                  // Navigator.of(context).pushNamedAndRemoveUntil(
+                  //     detailedProduct, (route) => false,
+                  //     arguments: product);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            ProductDetailedPage(product: product),
+                      ));
                 },
                 child: Image.asset(
                   product.image!,
@@ -62,17 +72,23 @@ class SingleProduct extends StatelessWidget {
                 Text('\$${product.price.toString()}'),
 
                 //
-                Container(
-                  height: 23,
-                  width: 22,
-                  decoration: BoxDecoration(
-                    color: Colors.green,
-                    borderRadius: BorderRadius.circular(5.5),
-                  ),
-                  child: const Icon(
-                    Icons.add,
-                    size: 15,
-                    color: Colors.white,
+                GestureDetector(
+                  onTap: () {
+                    //add to cart
+                    provider.addToCart(product: product);
+                  },
+                  child: Container(
+                    height: 23,
+                    width: 22,
+                    decoration: BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(5.5),
+                    ),
+                    child: const Icon(
+                      Icons.add,
+                      size: 15,
+                      color: Colors.white,
+                    ),
                   ),
                 )
               ],
