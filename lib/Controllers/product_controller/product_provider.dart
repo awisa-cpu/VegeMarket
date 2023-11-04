@@ -12,6 +12,8 @@ class ProductProvider extends ChangeNotifier {
 
   double totalPrice = 0;
 
+  int totalSelectedItems = 0;
+
   //to retrive all the products in cart
   UnmodifiableListView<Product> get cart => UnmodifiableListView(_cart);
 
@@ -31,6 +33,7 @@ class ProductProvider extends ChangeNotifier {
 
   void addToCart({required Product product}) {
     _cart.add(product);
+    totalSelectedItems = totalSelectedItems +1;
     notifyListeners();
   }
 
