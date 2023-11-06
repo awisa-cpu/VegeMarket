@@ -10,9 +10,15 @@ class ProductProvider extends ChangeNotifier {
 
   final List<Product> _cart = [];
 
+  final List<Product> _favourite = [];
+
   double totalPrice = 0;
 
   int totalSelectedItems = 0;
+
+  //to retrive all the products in cart
+  UnmodifiableListView<Product> get favourite =>
+      UnmodifiableListView(_favourite);
 
   //to retrive all the products in cart
   UnmodifiableListView<Product> get cart => UnmodifiableListView(_cart);
@@ -59,6 +65,21 @@ class ProductProvider extends ChangeNotifier {
   void clearCart() {
     _cart.clear();
     totalSelectedItems = 0;
+    notifyListeners();
+  }
+
+  void addToFavourite({required Product product}) {
+    if (!_favourite.contains(product)) {
+      _favourite.add(product);
+    }
+    notifyListeners();
+  }
+
+  
+  void removeFromFavourite({required Product product}) {
+    if (_favourite.contains(product)) {
+      _favourite.remove(product);
+    }
     notifyListeners();
   }
 }
