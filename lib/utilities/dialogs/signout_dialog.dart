@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shopcart/utilities/Dialogs_overlays/generic_dialog.dart';
+import 'package:shopcart/utilities/dialogs/generic_dialog.dart';
 
 Future<bool?> showSignOutDialog({
   required BuildContext context,
