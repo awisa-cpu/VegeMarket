@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopcart/Controllers/product_controller/product_provider.dart';
 import 'package:shopcart/Views/app_views/cart.dart';
-import 'package:shopcart/Views/product_views/home_product.dart';
 import 'package:shopcart/Views/product_views/single_product.dart';
 import 'package:shopcart/models/product.dart';
+import 'package:shopcart/utilities/widgets/quantity_option.dart';
 
 import '../../utilities/widgets/buy_button.dart';
 
@@ -22,6 +22,8 @@ class ProductDetailedPage extends StatefulWidget {
 
 class _ProductDetailedPageState extends State<ProductDetailedPage> {
   int value = 0;
+
+  //
   @override
   Widget build(BuildContext context) {
     //
@@ -40,7 +42,7 @@ class _ProductDetailedPageState extends State<ProductDetailedPage> {
                   left: 13.5, right: 13.5, bottom: 12, top: 50),
               child: Column(
                 children: [
-                  //action buttons
+                  //top section
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -48,17 +50,7 @@ class _ProductDetailedPageState extends State<ProductDetailedPage> {
                       Row(
                         children: [
                           IconButton(
-                            onPressed: () {
-                              // Navigator.of(context).pushNamedAndRemoveUntil(
-                              //     goHome, (route) => false);
-
-                              Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const HomeProduct(),
-                                  ),
-                                  (route) => false);
-                            },
+                            onPressed: () => Navigator.pop(context),
                             icon: const Icon(Icons.chevron_left),
                           ),
 
@@ -70,9 +62,7 @@ class _ProductDetailedPageState extends State<ProductDetailedPage> {
                         ],
                       ),
 
-                      //
-
-                      //
+                      //cart
                       Stack(
                         children: [
                           //
@@ -101,11 +91,12 @@ class _ProductDetailedPageState extends State<ProductDetailedPage> {
                             ),
                           ),
 
-                          //
+                          //route to Cart
                           IconButton(
                             enableFeedback: false,
                             onPressed: () {
                               //route to the carts page
+                              //fix the route issue
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -131,7 +122,7 @@ class _ProductDetailedPageState extends State<ProductDetailedPage> {
                     height: 15,
                   ),
 
-                  //
+                  //product information
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -140,6 +131,7 @@ class _ProductDetailedPageState extends State<ProductDetailedPage> {
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          //
                           Text(
                             widget.product.name,
                             style: const TextStyle(
@@ -148,6 +140,8 @@ class _ProductDetailedPageState extends State<ProductDetailedPage> {
                               color: Colors.black,
                             ),
                           ),
+
+                          //
                           const Text(
                             'by Farm Fresh Veg Shop',
                             style: TextStyle(color: Colors.grey),
@@ -218,44 +212,8 @@ class _ProductDetailedPageState extends State<ProductDetailedPage> {
                       ),
 
                       //add and reduce quantity
-                      Container(
-                        alignment: Alignment.center,
-                        height: 40,
-                        width: 115,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20.5),
-                            border: Border.all(width: 0.5)),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            //
-                            IconButton(
-                              onPressed: () {
-                                //increase the quantity
-                                setState(() {
-                                  value = value + 1;
-                                });
-                              },
-                              icon: const Icon(Icons.add),
-                              enableFeedback: false,
-                            ),
 
-                            Text(value.toString()),
-                            IconButton(
-                              onPressed: () {
-                                //decrease the quantity
-                                setState(() {
-                                  if (value != 0) {
-                                    value = value - 1;
-                                  }
-                                });
-                              },
-                              icon: const Icon(Icons.remove),
-                              enableFeedback: false,
-                            ),
-                          ],
-                        ),
-                      ),
+                      const QuantityOption(),
 
                       //buy button
                       const BuyButton(),
@@ -273,7 +231,7 @@ class _ProductDetailedPageState extends State<ProductDetailedPage> {
             //
             const Divider(),
 
-            //section under
+            //section under for other products
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 13.5, vertical: 12),
