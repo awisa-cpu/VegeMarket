@@ -1,4 +1,3 @@
-
 const String detailedProduct = '/detailPage';
 
 const String loginPage = '/loginPage';

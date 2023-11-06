@@ -21,6 +21,8 @@ Route generateRoute(RouteSettings settings) {
         case goHome:
           return const HomeProduct();
 
+        
+
         default:
           return const Scaffold(
             body: Text('Page Unknown'),

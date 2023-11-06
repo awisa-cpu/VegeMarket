@@ -110,7 +110,7 @@ class _MainScreenState extends State<MainScreen> {
             builder: (context) {
               return routeBuilders[settings.name]?.call(context) ??
                   const Center(
-                    child: Text('Error'),
+                    child: Text('route error'),
                   );
             },
           );
