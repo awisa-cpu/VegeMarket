@@ -2,10 +2,12 @@ import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopcart/Controllers/product_controller/product_provider.dart';
-import 'package:shopcart/Views/product_views/cart.dart';
+import 'package:shopcart/Views/app_views/cart.dart';
 import 'package:shopcart/Views/product_views/home_product.dart';
 import 'package:shopcart/Views/product_views/single_product.dart';
 import 'package:shopcart/models/product.dart';
+
+import '../../utilities/widgets/buy_button.dart';
 
 class ProductDetailedPage extends StatefulWidget {
   final Product product;
@@ -256,20 +258,7 @@ class _ProductDetailedPageState extends State<ProductDetailedPage> {
                       ),
 
                       //buy button
-                      Container(
-                        alignment: Alignment.center,
-                        height: 40,
-                        width: 110,
-                        decoration: BoxDecoration(
-                          color: const Color.fromRGBO(111, 207, 151, 1),
-                          borderRadius: BorderRadius.circular(20.5),
-                        ),
-                        child: const Text(
-                          'Buy now',
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
-                        ),
-                      ),
+                      const BuyButton(),
                     ],
                   ),
                 ],
