@@ -18,13 +18,14 @@ class SingleProduct extends StatefulWidget {
 
 class _SingleProductState extends State<SingleProduct> {
   bool fav = false;
+
+  //
   @override
   Widget build(BuildContext context) {
-    final provider = context.read<ProductProvider>();
     //
     return Material(
-      elevation: 1.0,
-      borderRadius: BorderRadius.circular(15),
+      elevation: 2.5,
+      borderRadius: BorderRadius.circular(17),
       color: Colors.grey.shade100,
       child: SizedBox(
         height: 210,
@@ -40,7 +41,7 @@ class _SingleProductState extends State<SingleProduct> {
                 IconButton(
                   enableFeedback: false,
                   padding: EdgeInsets.zero,
-                  onPressed: () => _addToFavourite(product: widget.product),
+                  onPressed: () => _updateFavourite(product: widget.product),
                   icon: Icon(
                     Icons.favorite,
                     color: fav ? Colors.red : Colors.green,
@@ -88,9 +89,9 @@ class _SingleProductState extends State<SingleProduct> {
 
                       //add to cart
                       GestureDetector(
-                        onTap: () {
-                          provider.addToCart(product: widget.product);
-                        },
+                        onTap: () => context
+                            .read<ProductProvider>()
+                            .addToCart(product: widget.product),
                         child: Container(
                           height: 23,
                           width: 22,
@@ -118,10 +119,15 @@ class _SingleProductState extends State<SingleProduct> {
     );
   }
 
-  void _addToFavourite({required Product product}) {
+  void _updateFavourite({required Product product}) {
     setState(() {
-      fav = true;
+      fav = !fav;
     });
-    context.read<ProductProvider>().addToFavourite(product: product);
+
+    if (fav) {
+      context.read<ProductProvider>().addToFavourite(product: product);
+    } else {
+      context.read<ProductProvider>().removeFromFavourite(product: product);
+    }
   }
 }
