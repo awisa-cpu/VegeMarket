@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:shopcart/Controllers/product_controller/product_provider.dart';
 import 'package:shopcart/models/product.dart';
 import 'package:shopcart/utilities/dialogs/ask_to_remove_dialog.dart';
+import 'package:shopcart/utilities/widgets/buy_button.dart';
+import 'package:shopcart/utilities/widgets/quantity_option.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
@@ -20,55 +22,6 @@ class _CartPageState extends State<CartPage> {
           'Cart',
           style: TextStyle(fontSize: 20),
         ),
-        actions: [
-          Stack(
-            children: [
-              //
-              Positioned(
-                left: 15,
-                child: Container(
-                  height: 25,
-                  width: 25,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.green,
-                  ),
-                  child: Center(
-                    child: Consumer<ProductProvider>(
-                      builder: (context, value, _) {
-                        return Text(
-                          value.totalSelectedItems.toString(),
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-              ),
-
-              //
-              IconButton(
-                enableFeedback: false,
-                onPressed: () {
-                  //route to the carts page
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const CartPage(),
-                    ),
-                  );
-                },
-                icon: const Icon(
-                  Icons.shopping_cart,
-                  size: 40,
-                ),
-              ),
-            ],
-          ),
-        ],
       ),
 
       //
@@ -77,7 +30,19 @@ class _CartPageState extends State<CartPage> {
           //
           if (value.cart.isEmpty) {
             return const Center(
-              child: Text('Your cart is Empty'),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.shopping_cart,
+                    size: 50,
+                    color: Colors.green,
+                  ),
+
+                  //
+                  Text('Your Cart is Empty')
+                ],
+              ),
             );
           } else {
             //
@@ -118,29 +83,56 @@ class _CartPageState extends State<CartPage> {
                           subtitle: Text("\$${product.price.toString()}"),
                         ),
 
-                        //
-                        TextButton(
-                          onPressed: () async {
-                            final ans = await showAskToRemove(
-                                context: context,
-                                title: 'Saved Item',
-                                content:
-                                    'Do you really want to remove from Cart? ');
+                        //remove
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            //remove button
+                            TextButton(
+                              onPressed: () async {
+                                final ans = await showAskToRemove(
+                                    context: context,
+                                    title: 'Cart Item',
+                                    content:
+                                        'Do you really want to remove item from Cart? ');
 
-                            if (ans!) {
-                              _removeFromCart(product: product);
-                            }
-                          },
-                          child: const Text('Remove'),
+                                if (ans!) {
+                                  _removeFromCart(product: product);
+                                }
+                              },
+                              child: const Text('Remove'),
+                            ),
+
+                            //
+                            const QuantityOption(),
+                          ],
                         )
                       ],
                     );
                   },
                 ),
 
-                //
-                TextButton(
-                    onPressed: _clearCart, child: const Text('Clear Cart')),
+                //action buttons
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 35, vertical: 15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+
+                      //
+                      BuyButton(
+                        text: 'Clear cart',
+                        onPressed: () => _clearCart(),
+                      ),
+
+                      //
+                      const BuyButton(
+                        text: 'Make Payment',
+                      ),
+                    ],
+                  ),
+                ),
               ],
             );
           }
@@ -153,7 +145,17 @@ class _CartPageState extends State<CartPage> {
     context.read<ProductProvider>().removeFromCart(product: product);
   }
 
-  void _clearCart() {
-    context.read<ProductProvider>().clearCart();
+  void _clearCart() async {
+    final ans = await showAskToRemove(
+      context: context,
+      title: 'Cart Item',
+      content: 'Do you really want to clear cart items?',
+    );
+
+    if (ans!) {
+      Future.delayed(Duration.zero).then(
+        (value) => context.read<ProductProvider>().clearCart(),
+      );
+    }
   }
 }
