@@ -1,3 +1,4 @@
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopcart/Controllers/auth/auth_event.dart';
 import 'package:shopcart/Controllers/auth/auth_state.dart';
@@ -42,14 +43,18 @@ class AuthenticationBloc extends Bloc<AuthEvent, AuthState> {
 
     //signin event
     on<AuthEventSignIn>((event, emit) async {
-      emit(AuthStateLoggedOut(loading: true, exception: null));
+      emit(AuthStateLoggedOut(
+        loading: true,
+        exception: null,
+        loadingText: 'Please wait while i log you in',
+      ));
 
       try {
         final email = event.email;
         final password = event.password;
 
         await provider.login(email: email, password: password);
-        emit(AuthStateLoggedOut(loading: false));
+        emit(AuthStateLoggedOut(loading: false, exception: null));
         emit(AuthStateLoggedIn());
       } on Exception catch (e) {
         emit(AuthStateLoggedOut(loading: false, exception: e));

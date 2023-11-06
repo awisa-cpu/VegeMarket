@@ -16,9 +16,11 @@ class AuthStateInitialize extends AuthState {
 }
 
 class AuthStateLoggedOut extends AuthState {
+  String? loadingText;
   AuthStateLoggedOut({
     required bool loading,
     Exception? exception,
+    this.loadingText,
   }) : super(
           isLoading: loading,
           exception: exception,
