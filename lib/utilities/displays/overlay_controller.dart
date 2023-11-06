@@ -29,7 +29,7 @@ class OverLayController {
     final overEntry = OverlayEntry(
       builder: (context) {
         return Material(
-          color: Colors.black.withAlpha(180),
+          color: Colors.black.withAlpha(150),
           child: Center(
             child: Container(
               constraints: BoxConstraints(
