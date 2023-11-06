@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopcart/Controllers/product_controller/product_provider.dart';
 import 'package:shopcart/models/product.dart';
+import 'package:shopcart/utilities/dialogs/ask_to_remove_dialog.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
@@ -90,7 +91,10 @@ class _CartPageState extends State<CartPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text('Subtotal'),
-                      Text("\$ ${value.totalPrice.toString()}")
+                      Text(
+                        "\$ ${value.totalPrice.toStringAsPrecision(2)}",
+                        style: const TextStyle(fontSize: 16),
+                      ),
                     ],
                   ),
                 ),
@@ -111,12 +115,22 @@ class _CartPageState extends State<CartPage> {
                         ListTile(
                           leading: Image.asset(product.image ?? 'no image'),
                           title: Text(product.name),
-                          subtitle: Text(product.price.toString()),
+                          subtitle: Text("\$${product.price.toString()}"),
                         ),
 
                         //
                         TextButton(
-                          onPressed: () => _removeFromCart(product: product),
+                          onPressed: () async {
+                            final ans = await showAskToRemove(
+                                context: context,
+                                title: 'Saved Item',
+                                content:
+                                    'Do you really want to remove from Cart? ');
+
+                            if (ans!) {
+                              _removeFromCart(product: product);
+                            }
+                          },
                           child: const Text('Remove'),
                         )
                       ],

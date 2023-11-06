@@ -3,9 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:shopcart/Controllers/auth/auth_bloc_controller.dart';
 import 'package:shopcart/Controllers/auth/auth_event.dart';
 import 'package:shopcart/Controllers/product_controller/product_provider.dart';
-import 'package:shopcart/Views/product_views/cart.dart';
+import 'package:shopcart/Views/app_views/cart.dart';
 import 'package:shopcart/services/auth/auth_service.dart';
-import 'package:shopcart/utilities/Dialogs_overlays/signout_dialog.dart';
+import 'package:shopcart/utilities/dialogs/signout_dialog.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -94,29 +94,28 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ],
           ),
-          IconButton(
-            onPressed: () async {
-              final value = await showSignOutDialog(
-                context: context,
-                title: "Sign Out ",
-                content: "Are you sure you want to sign out?",
-              );
-
-              //
-              if (value != null && value == true) {
-                Future.delayed(
-                  Duration.zero,
-                ).then((_) {
-                  context.read<AuthenticationBloc>().add(AuthEventSignOut());
-                });
-              }
-            },
-            icon: const Icon(Icons.logout),
-          )
         ],
       ),
-      body: const Center(
-        child: Text('Account'),
+      body: Center(
+        child: TextButton(
+          onPressed: () async {
+            final value = await showSignOutDialog(
+              context: context,
+              title: "Sign Out ",
+              content: "Are you sure you want to sign out?",
+            );
+
+            //
+            if (value != null && value == true) {
+              Future.delayed(
+                Duration.zero,
+              ).then((_) {
+                context.read<AuthenticationBloc>().add(AuthEventSignOut());
+              });
+            }
+          },
+          child: const Text('Logout'),
+        ),
       ),
     );
   }
