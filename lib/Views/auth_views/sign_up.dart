@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopcart/Controllers/auth/auth_bloc_controller.dart';
@@ -21,7 +23,6 @@ class _SignUpViewState extends State<SignUpView> {
 
   bool _showPassword = false;
 
-  bool keepSignedIn = true;
   bool sendEmailNotification = true;
 
   @override
@@ -42,17 +43,25 @@ class _SignUpViewState extends State<SignUpView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocListener<AuthenticationBloc, AuthState>(
-        listener: (context, state) {
+        listener: (context, state) async {
           if (state is AuthStateLoggedOut) {
+            log(state.exception.toString());
             if (state.exception is EmailAlreadyInUseException) {
               displaySnackBar(context: context, text: 'Email Already in use');
+
+              //
             } else if (state.exception is InvalidEmailException) {
               displaySnackBar(context: context, text: 'Invalid Email');
+             
+             //
             } else if (state.exception is WeakPasswordException) {
               displaySnackBar(context: context, text: 'Weak Password');
+
+              //
             } else if (state.exception is GenericAuthException) {
               displaySnackBar(context: context, text: 'Generic Auth Error');
             }
+           
           }
         },
         child: Padding(
@@ -119,24 +128,6 @@ class _SignUpViewState extends State<SignUpView> {
                 height: 10.5,
               ),
 
-              //optionals
-              Row(
-                children: [
-                  Checkbox(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    value: keepSignedIn,
-                    splashRadius: 0.4,
-                    onChanged: (value) {
-                      setState(() {
-                        keepSignedIn = value!;
-                      });
-                    },
-                  ),
-                  const Text('Keep Me Signed In')
-                ],
-              ),
               //
               Row(
                 children: [

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopcart/Controllers/auth/auth_bloc_controller.dart';
@@ -19,6 +21,7 @@ class _SignInViewState extends State<SignInView> {
   late final TextEditingController _emailCon;
   late final TextEditingController _passwordCon;
   bool _showPassword = true;
+  bool keepSignedIn = true;
 
   @override
   void initState() {
@@ -42,16 +45,27 @@ class _SignInViewState extends State<SignInView> {
         listener: (context, state) {
           if (state is AuthStateLoggedOut) {
             //rework on the exceptions
+            log(state.exception.toString());
             if (state.exception is InvalidEmailException) {
               displaySnackBar(context: context, text: 'Invalid Email');
+
+              //
             } else if (state.exception is UserNotFoundException) {
               displaySnackBar(context: context, text: 'User Not Found');
+
+              //
             } else if (state.exception is WrongPasswordException) {
               displaySnackBar(context: context, text: 'Wrong Password');
+
+              //
             } else if (state.exception is UserDisabledException) {
               displaySnackBar(context: context, text: 'User has been diabled ');
+
+              //
             } else if (state.exception is InvalidLoginCredentialsException) {
               displaySnackBar(context: context, text: 'Invalid Details');
+
+              //
             } else if (state.exception is GenericAuthException) {
               displaySnackBar(context: context, text: 'Generic Auth Error');
             }
@@ -120,6 +134,25 @@ class _SignInViewState extends State<SignInView> {
                       ),
                     ),
                   ),
+                ),
+
+                //optionals
+                Row(
+                  children: [
+                    Checkbox(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      value: keepSignedIn,
+                      splashRadius: 0.4,
+                      onChanged: (value) {
+                        setState(() {
+                          keepSignedIn = value!;
+                        });
+                      },
+                    ),
+                    const Text('Keep Me Signed In')
+                  ],
                 ),
 
                 //
