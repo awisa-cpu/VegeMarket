@@ -12,6 +12,8 @@ class ProductProvider extends ChangeNotifier {
 
   final List<Product> _favourite = [];
 
+  bool favouriteState = false;
+
   double totalPrice = 0;
 
   int totalSelectedItems = 0;
@@ -25,6 +27,11 @@ class ProductProvider extends ChangeNotifier {
 
   //to retrive all the products
   UnmodifiableListView<Product> get products => UnmodifiableListView(_products);
+
+ void stateChanger(){
+favouriteState = !favouriteState;
+notifyListeners();
+  }
 
   Iterable<Product> getProductsByCategoryId({required int categoryId}) {
     final newProducts =

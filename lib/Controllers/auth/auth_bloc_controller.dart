@@ -4,6 +4,8 @@ import 'package:shopcart/Controllers/auth/auth_event.dart';
 import 'package:shopcart/Controllers/auth/auth_state.dart';
 import 'package:shopcart/services/auth/auth_provider.dart';
 
+
+//Responsibility: Handle authentication services
 class AuthenticationBloc extends Bloc<AuthEvent, AuthState> {
   final AuthProvider provider;
 

@@ -17,7 +17,7 @@ class SingleProduct extends StatefulWidget {
 }
 
 class _SingleProductState extends State<SingleProduct> {
-  bool fav = false;
+  bool favourite = false;
 
   //
   @override
@@ -44,7 +44,7 @@ class _SingleProductState extends State<SingleProduct> {
                   onPressed: () => _updateFavourite(product: widget.product),
                   icon: Icon(
                     Icons.favorite,
-                    color: fav ? Colors.red : Colors.green,
+                    color: favourite ? Colors.red : Colors.green,
                   ),
                 )
               ],
@@ -121,10 +121,10 @@ class _SingleProductState extends State<SingleProduct> {
 
   void _updateFavourite({required Product product}) {
     setState(() {
-      fav = !fav;
+      favourite = !favourite;
     });
 
-    if (fav) {
+    if (favourite) {
       context.read<ProductProvider>().addToFavourite(product: product);
     } else {
       context.read<ProductProvider>().removeFromFavourite(product: product);
