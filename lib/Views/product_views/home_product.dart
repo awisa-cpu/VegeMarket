@@ -4,19 +4,12 @@ import 'package:shopcart/Controllers/product_controller/product_provider.dart';
 import 'package:shopcart/Views/app_views/cart.dart';
 import 'package:shopcart/Views/product_views/single_product.dart';
 
-class HomeProduct extends StatefulWidget {
+class HomeProduct extends StatelessWidget {
   const HomeProduct({super.key});
 
-  @override
-  State<HomeProduct> createState() => _HomeProductState();
-}
-
-class _HomeProductState extends State<HomeProduct> {
+  //
   @override
   Widget build(BuildContext context) {
-    final allProducts = context.read<ProductProvider>().products;
-    //
-
     return Scaffold(
       //body
       body: SingleChildScrollView(
@@ -31,15 +24,27 @@ class _HomeProductState extends State<HomeProduct> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //app bar
-              const SizedBox(
-                height: 10,
+              
+
+              //search bar
+              TextField(
+                onChanged: (value) {
+                  context.read<ProductProvider>().searchProducts(value);
+                },
+                decoration: const InputDecoration(
+                  prefixIcon: Icon(Icons.search),
+                  hintText: 'Search on Vegemarket',
+                ),
               ),
 
+              const SizedBox(
+                height: 10.5,
+              ),
+
+              //cart
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  //
-
                   Stack(
                     children: [
                       //
@@ -164,19 +169,28 @@ class _HomeProductState extends State<HomeProduct> {
               ),
 
               //all products
-              GridView.builder(
-                padding: EdgeInsets.zero,
-                physics: const ScrollPhysics(),
-                shrinkWrap: true,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 8,
-                  crossAxisSpacing: 8,
-                ),
-                itemCount: allProducts.length,
-                itemBuilder: (context, index) {
-                  final product = allProducts[index];
-                  return SingleProduct(product: product);
+              Consumer<ProductProvider>(
+                builder: (context, provider, _) {
+                  final products = provider.filtered.isEmpty
+                      ? provider.products
+                      : provider.filtered;
+                  //
+                  return GridView.builder(
+                    padding: EdgeInsets.zero,
+                    physics: const ScrollPhysics(),
+                    shrinkWrap: true,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 8,
+                      crossAxisSpacing: 8,
+                    ),
+                    itemCount: products.length,
+                    itemBuilder: (context, index) {
+                      final product = products[index];
+                      return SingleProduct(product: product);
+                    },
+                  );
                 },
               )
             ],
