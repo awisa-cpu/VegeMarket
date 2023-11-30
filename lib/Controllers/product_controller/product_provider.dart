@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:flutter/foundation.dart';
 import 'package:shopcart/models/product.dart';
 import 'package:shopcart/services/database/product_repository.dart';
@@ -8,29 +6,34 @@ class ProductProvider extends ChangeNotifier {
   //contain all the products
   final List<Product> _products = ProductsRepo().products;
 
+  List<Product> _filtered = [];
+
   final List<Product> _cart = [];
 
   final List<Product> _favourite = [];
-
-  bool favouriteState = false;
 
   double totalPrice = 0;
 
   int totalSelectedItems = 0;
 
   //to retrive all the products in cart
-  UnmodifiableListView<Product> get favourite =>
-      UnmodifiableListView(_favourite);
+  List<Product> get favourite => _favourite;
 
   //to retrive all the products in cart
-  UnmodifiableListView<Product> get cart => UnmodifiableListView(_cart);
+  List<Product> get cart => _cart;
 
   //to retrive all the products
-  UnmodifiableListView<Product> get products => UnmodifiableListView(_products);
+  List<Product> get products => _products;
 
- void stateChanger(){
-favouriteState = !favouriteState;
-notifyListeners();
+  //to retrive all filtered  products
+  List<Product> get filtered => _filtered;
+
+  void searchProducts(String textToSearch) {
+    _filtered = _products
+        .where((product) =>
+            product.name.toLowerCase().contains(textToSearch.toLowerCase()))
+        .toList();
+    notifyListeners(); //update all listeners
   }
 
   Iterable<Product> getProductsByCategoryId({required int categoryId}) {
@@ -82,7 +85,6 @@ notifyListeners();
     notifyListeners();
   }
 
-  
   void removeFromFavourite({required Product product}) {
     if (_favourite.contains(product)) {
       _favourite.remove(product);
