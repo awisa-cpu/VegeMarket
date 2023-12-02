@@ -1,6 +1,7 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:shopcart/models/product.dart';
 import 'package:shopcart/services/database/product_repository.dart';
+import 'package:shopcart/utilities/displays/snackbar.dart';
 
 class ProductProvider extends ChangeNotifier {
   //contain all the products
@@ -28,10 +29,14 @@ class ProductProvider extends ChangeNotifier {
   //to retrive all filtered  products
   List<Product> get filtered => _filtered;
 
+  //search for products
   void searchProducts(String textToSearch) {
     _filtered = _products
-        .where((product) =>
-            product.name.toLowerCase().contains(textToSearch.toLowerCase()))
+        .where(
+          (product) =>
+              product.name.toLowerCase().contains(textToSearch.toLowerCase()) ||
+              product.price.toString().contains(textToSearch),
+        )
         .toList();
     notifyListeners(); //update all listeners
   }
@@ -46,28 +51,33 @@ class ProductProvider extends ChangeNotifier {
     return _products.firstWhere((element) => element.id == id);
   }
 
-  void addToCart({required Product product}) {
-    _cart.add(product);
-    totalSelectedItems = totalSelectedItems + 1;
-    _increasePrice(product);
-    notifyListeners();
+  void addToCart({required Product product, required BuildContext context}) {
+    if (!_cart.contains(product)) {
+      _cart.add(product);
+      totalSelectedItems = totalSelectedItems + 1;
+      increasePrice(product);
+      notifyListeners();
+      displaySnackBar(context: context, text: 'product added to cart');
+    } else {
+      displaySnackBar(context: context, text: 'Product already in cart');
+    }
   }
 
   void removeFromCart({required Product product}) {
     if (_cart.contains(product)) {
       _cart.remove(product);
-      _decreasePrice(product);
+      decreasePrice(product);
       totalSelectedItems--;
     }
     notifyListeners();
   }
 
-  void _decreasePrice(Product product) {
+  void decreasePrice(Product product) {
     totalPrice = totalPrice - product.price;
     notifyListeners();
   }
 
-  void _increasePrice(Product product) {
+  void increasePrice(Product product) {
     totalPrice = totalPrice + product.price;
     notifyListeners();
   }
