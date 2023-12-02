@@ -1,8 +1,11 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopcart/Controllers/product_controller/product_provider.dart';
+import 'package:shopcart/models/product.dart';
 
 class QuantityOption extends StatefulWidget {
-  const QuantityOption({super.key});
+  const QuantityOption({super.key, this.product});
+  final Product? product;
 
   @override
   State<QuantityOption> createState() => _QuantityOptionState();
@@ -14,6 +17,7 @@ class _QuantityOptionState extends State<QuantityOption> {
   //
   @override
   Widget build(BuildContext context) {
+    final provider = context.read<ProductProvider>();
     return Container(
       alignment: Alignment.center,
       height: 40,
@@ -29,6 +33,7 @@ class _QuantityOptionState extends State<QuantityOption> {
           IconButton(
             onPressed: () {
               //increase the quantity
+              provider.increasePrice(widget.product!);
               setState(() {
                 value = value + 1;
               });
@@ -43,6 +48,7 @@ class _QuantityOptionState extends State<QuantityOption> {
           IconButton(
             onPressed: () {
               //decrease the quantity
+              provider.decreasePrice(widget.product!);
               setState(() {
                 if (value != 0) {
                   value = value - 1;
