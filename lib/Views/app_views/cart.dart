@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shopcart/Controllers/product_controller/product_provider.dart';
 import 'package:shopcart/models/product.dart';
 import 'package:shopcart/utilities/dialogs/ask_to_remove_dialog.dart';
+import 'package:shopcart/utilities/displays/snackbar.dart';
 import 'package:shopcart/utilities/widgets/buy_button.dart';
 import 'package:shopcart/utilities/widgets/quantity_option.dart';
 
@@ -83,7 +84,7 @@ class _CartPageState extends State<CartPage> {
                           subtitle: Text("\$${product.price.toString()}"),
                         ),
 
-                        //remove
+                        //product actions
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -104,7 +105,7 @@ class _CartPageState extends State<CartPage> {
                             ),
 
                             //
-                            const QuantityOption(),
+                            QuantityOption(product: product),
                           ],
                         )
                       ],
@@ -119,7 +120,6 @@ class _CartPageState extends State<CartPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-
                       //
                       BuyButton(
                         text: 'Clear cart',
@@ -143,6 +143,7 @@ class _CartPageState extends State<CartPage> {
 
   void _removeFromCart({required Product product}) {
     context.read<ProductProvider>().removeFromCart(product: product);
+    displaySnackBar(context: context, text: 'Product deleted');
   }
 
   void _clearCart() async {
@@ -154,7 +155,10 @@ class _CartPageState extends State<CartPage> {
 
     if (ans!) {
       Future.delayed(Duration.zero).then(
-        (value) => context.read<ProductProvider>().clearCart(),
+        (value) {
+          context.read<ProductProvider>().clearCart();
+          displaySnackBar(context: context, text: 'Cart cleared');
+        },
       );
     }
   }
