@@ -5,7 +5,6 @@ import 'package:shopcart/Controllers/product_controller/product_provider.dart';
 import 'package:shopcart/Views/app_views/cart.dart';
 import 'package:shopcart/Views/product_views/single_product.dart';
 import 'package:shopcart/models/product.dart';
-import 'package:shopcart/utilities/widgets/quantity_option.dart';
 
 import '../../utilities/widgets/buy_button.dart';
 
@@ -211,12 +210,17 @@ class _ProductDetailedPageState extends State<ProductDetailedPage> {
                         ),
                       ),
 
-                      //add and reduce quantity
+                  
 
-                      const QuantityOption(),
-
-                      //buy button
-                      const BuyButton(),
+                      //add  to cart
+                      BuyButton(
+                        text: 'Add To Cart',
+                        onPressed: () {
+                          context
+                              .read<ProductProvider>()
+                              .addToCart(product: widget.product,context: context);
+                        },
+                      ),
                     ],
                   ),
                 ],
