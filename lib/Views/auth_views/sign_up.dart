@@ -52,8 +52,8 @@ class _SignUpViewState extends State<SignUpView> {
               //
             } else if (state.exception is InvalidEmailException) {
               displaySnackBar(context: context, text: 'Invalid Email');
-             
-             //
+
+              //
             } else if (state.exception is WeakPasswordException) {
               displaySnackBar(context: context, text: 'Weak Password');
 
@@ -61,7 +61,6 @@ class _SignUpViewState extends State<SignUpView> {
             } else if (state.exception is GenericAuthException) {
               displaySnackBar(context: context, text: 'Generic Auth Error');
             }
-           
           }
         },
         child: Padding(
@@ -69,8 +68,17 @@ class _SignUpViewState extends State<SignUpView> {
           child: Column(
             children: [
               const SizedBox(
-                height: 70,
+                height: 60.5,
               ),
+
+              //display image
+              CircleAvatar(
+                radius: 80.2,
+                child: Image.asset(
+                  'lib/images/display.png',
+                ),
+              ),
+
               //message
               const Text('Sign Up For Free'),
 

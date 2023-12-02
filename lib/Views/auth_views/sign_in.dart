@@ -78,7 +78,15 @@ class _SignInViewState extends State<SignInView> {
               children: [
                 //
                 const SizedBox(
-                  height: 200.5,
+                  height: 60.5,
+                ),
+
+                //display image
+                CircleAvatar(
+                  radius: 80.2,
+                  child: Image.asset(
+                    'lib/images/display.png',
+                  ),
                 ),
 
                 //message
