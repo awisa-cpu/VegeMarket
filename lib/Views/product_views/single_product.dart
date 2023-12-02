@@ -89,9 +89,8 @@ class _SingleProductState extends State<SingleProduct> {
 
                       //add to cart
                       GestureDetector(
-                        onTap: () => context
-                            .read<ProductProvider>()
-                            .addToCart(product: widget.product),
+                        onTap: () => context.read<ProductProvider>().addToCart(
+                            product: widget.product, context: context),
                         child: Container(
                           height: 23,
                           width: 22,
