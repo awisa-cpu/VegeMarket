@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shopcart/firebase_options.dart';
@@ -30,10 +28,8 @@ class FirebaseAuthProvider implements AuthProvider {
     required String password,
   }) async {
     try {
-      final use = await FirebaseAuth.instance
+      await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-      log(use.toString());
-
       final cUser = FirebaseAuth.instance.currentUser;
       if (cUser != null) {
         return AuthUser.fromFirebase(cUser);
@@ -51,8 +47,6 @@ class FirebaseAuthProvider implements AuthProvider {
         case 'user-disabled':
           throw UserDisabledException();
         case 'INVALID_LOGIN_CREDENTIALS':
-        
-
         default:
           throw GenericAuthException();
       }
@@ -114,8 +108,6 @@ class FirebaseAuthProvider implements AuthProvider {
       throw UserNotFoundException();
     }
   }
-  
-  
 
   @override
   AuthUser? get currentUser {
@@ -126,5 +118,4 @@ class FirebaseAuthProvider implements AuthProvider {
       return null;
     }
   }
-
 }

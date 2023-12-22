@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopcart/Controllers/auth/auth_bloc_controller.dart';
@@ -40,12 +38,16 @@ class _SignInViewState extends State<SignInView> {
   //
   @override
   Widget build(BuildContext context) {
+    //
+
+    final color = Theme.of(context).primaryColor;
+
+    //
     return Scaffold(
       body: BlocListener<AuthenticationBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthStateLoggedOut) {
             //rework on the exceptions
-            log(state.exception.toString());
             if (state.exception is InvalidEmailException) {
               displaySnackBar(context: context, text: 'Invalid Email');
 
@@ -249,7 +251,7 @@ class _SignInViewState extends State<SignInView> {
                 ),
                 Text(
                   'Forgot Your Password?',
-                  style: TextStyle(color: Colors.amber.shade900),
+                  style: TextStyle(color: color),
                 ),
 
                 const SizedBox(
@@ -282,7 +284,7 @@ class _SignInViewState extends State<SignInView> {
                     },
                     child: Text(
                       'No Account? Create Account',
-                      style: TextStyle(color: Colors.amber.shade900),
+                      style: TextStyle(color: color),
                     ))
               ],
             ),

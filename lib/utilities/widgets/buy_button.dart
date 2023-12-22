@@ -22,7 +22,7 @@ class BuyButton extends StatelessWidget {
         height: 40,
         width: 120,
         decoration: BoxDecoration(
-          color: const Color.fromRGBO(111, 207, 151, 1),
+          color: Theme.of(context).primaryColor,
           borderRadius: BorderRadius.circular(20.5),
         ),
         child: Text(

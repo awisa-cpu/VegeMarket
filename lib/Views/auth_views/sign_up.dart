@@ -63,133 +63,138 @@ class _SignUpViewState extends State<SignUpView> {
             }
           }
         },
-        child: Padding(
-          padding: const EdgeInsets.all(14.5),
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 60.5,
-              ),
-
-              //display image
-              CircleAvatar(
-                radius: 80.2,
-                child: Image.asset(
-                  'lib/images/display.png',
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(14.5),
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 60.5,
                 ),
-              ),
 
-              //message
-              const Text('Sign Up For Free'),
-
-              //
-              const SizedBox(
-                height: 25.5,
-              ),
-
-              //email field
-              TextFormField(
-                controller: _emailCon,
-                decoration: const InputDecoration(
-                  prefixIcon: Icon(Icons.email),
-                  hintText: 'Email',
-                  contentPadding: EdgeInsets.symmetric(horizontal: 10.5),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10.5),
-                    ),
+                //display image
+                CircleAvatar(
+                  radius: 80.2,
+                  child: Image.asset(
+                    'lib/images/display.png',
                   ),
                 ),
-              ),
-              //
-              const SizedBox(
-                height: 20.5,
-              ),
 
-              //password field
-              TextField(
-                controller: _passwordCon,
-                decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.password),
-                  suffixIcon: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        _showPassword = !_showPassword;
-                      });
-                    },
-                    icon: Icon(
-                      _showPassword ? Icons.visibility : Icons.visibility_off,
-                    ),
-                  ),
-                  hintText: 'Password',
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 10.5),
-                  border: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10.5),
+                //message
+                const Text('Sign Up For Free'),
+
+                //
+                const SizedBox(
+                  height: 25.5,
+                ),
+
+                //email field
+                TextFormField(
+                  controller: _emailCon,
+                  decoration: const InputDecoration(
+                    prefixIcon: Icon(Icons.email),
+                    hintText: 'Email',
+                    contentPadding: EdgeInsets.symmetric(horizontal: 10.5),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10.5),
+                      ),
                     ),
                   ),
                 ),
-              ),
+                //
+                const SizedBox(
+                  height: 20.5,
+                ),
 
-              //
-              const SizedBox(
-                height: 10.5,
-              ),
-
-              //
-              Row(
-                children: [
-                  Checkbox(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                //password field
+                TextField(
+                  controller: _passwordCon,
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(Icons.password),
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _showPassword = !_showPassword;
+                        });
+                      },
+                      icon: Icon(
+                        _showPassword ? Icons.visibility : Icons.visibility_off,
+                      ),
                     ),
-                    value: sendEmailNotification,
-                    splashRadius: 0.4,
-                    onChanged: (value) {
-                      setState(() {
-                        sendEmailNotification = value!;
-                      });
-                    },
+                    hintText: 'Password',
+                    contentPadding:
+                        const EdgeInsets.symmetric(horizontal: 10.5),
+                    border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10.5),
+                      ),
+                    ),
                   ),
-                  const Text('Email Me About Special Pricing')
-                ],
-              ),
-              //
-              const SizedBox(
-                height: 25.5,
-              ),
+                ),
 
-              //create account
+                //
+                const SizedBox(
+                  height: 10.5,
+                ),
 
-              CustomButton(
-                text: 'Create Account',
-                perform: () {
-                  final email = _emailCon.text;
-                  final password = _passwordCon.text;
+                //
+                Row(
+                  children: [
+                    Checkbox(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      value: sendEmailNotification,
+                      splashRadius: 0.4,
+                      onChanged: (value) {
+                        setState(() {
+                          sendEmailNotification = value!;
+                        });
+                      },
+                    ),
+                    const Text('Email Me About Special Pricing')
+                  ],
+                ),
+                //
+                const SizedBox(
+                  height: 25.5,
+                ),
 
-                  context
-                      .read<AuthenticationBloc>()
-                      .add(AuthEventSignup(email: email, password: password));
-                },
-              ),
+                //create account
 
-              //
-              const SizedBox(
-                height: 23,
-              ),
+                CustomButton(
+                  text: 'Create Account',
+                  perform: () {
+                    final email = _emailCon.text;
+                    final password = _passwordCon.text;
 
-              //have account?
-              TextButton(
-                  onPressed: () {
                     context
                         .read<AuthenticationBloc>()
-                        .add(AuthEventHaveAccount());
+                        .add(AuthEventSignup(email: email, password: password));
                   },
-                  child: Text(
-                    'Already have an account?',
-                    style: TextStyle(color: Colors.amber.shade900),
-                  ))
-            ],
+                ),
+
+                //
+                const SizedBox(
+                  height: 23,
+                ),
+
+                //have account?
+                TextButton(
+                    onPressed: () {
+                      context
+                          .read<AuthenticationBloc>()
+                          .add(AuthEventHaveAccount());
+                    },
+                    child: Text(
+                      'Already have an account?',
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ))
+              ],
+            ),
           ),
         ),
       ),

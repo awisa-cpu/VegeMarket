@@ -2,9 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthUser {
   final String uid;
-   String? displayName;
+  String? displayName;
   final String email;
   final bool isEmailVerified;
+  String? phoneNumber;
+  String? photoUrl;
+
 
 
   AuthUser._private({

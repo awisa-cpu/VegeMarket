@@ -85,6 +85,7 @@ class ProductProvider extends ChangeNotifier {
   void clearCart() {
     _cart.clear();
     totalSelectedItems = 0;
+    totalPrice = 0;
     notifyListeners();
   }
 
