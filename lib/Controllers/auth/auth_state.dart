@@ -59,3 +59,8 @@ class AuthStateDontHaveAccount extends AuthState {
           exception: exception,
         );
 }
+
+class AuthStateEmailVerify extends AuthState{
+
+  AuthStateEmailVerify({bool? loading, Exception? exception}):super(isLoading: loading, exception: exception,);
+}
