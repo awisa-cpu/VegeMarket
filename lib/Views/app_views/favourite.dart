@@ -16,11 +16,16 @@ class _FavouritePageState extends State<FavouritePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //
       appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
         title: const Text(
           'Saved Items',
-          style: TextStyle(fontSize: 20),
+          style: TextStyle(
+            color: Colors.white,
+          ),
         ),
+        centerTitle: true,
       ),
 
       //body
@@ -101,7 +106,7 @@ class _FavouritePageState extends State<FavouritePage> {
     );
   }
 
-  _removeFromFavourite({required Product product}) {
+  void _removeFromFavourite({required Product product}) {
     context.read<ProductProvider>().removeFromFavourite(product: product);
   }
 }

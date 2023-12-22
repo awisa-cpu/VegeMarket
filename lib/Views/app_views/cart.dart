@@ -19,10 +19,14 @@ class _CartPageState extends State<CartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
         title: const Text(
           'Cart',
-          style: TextStyle(fontSize: 20),
+          style: TextStyle(
+            color: Colors.white,
+          ),
         ),
+        centerTitle: true,
       ),
 
       //
@@ -101,7 +105,11 @@ class _CartPageState extends State<CartPage> {
                                   _removeFromCart(product: product);
                                 }
                               },
-                              child: const Text('Remove'),
+                              child: Text(
+                                'Remove',
+                                style: TextStyle(
+                                    color: Theme.of(context).primaryColor),
+                              ),
                             ),
 
                             //
