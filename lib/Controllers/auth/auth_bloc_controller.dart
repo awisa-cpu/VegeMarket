@@ -1,9 +1,7 @@
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopcart/Controllers/auth/auth_event.dart';
 import 'package:shopcart/Controllers/auth/auth_state.dart';
 import 'package:shopcart/services/auth/auth_provider.dart';
-
 
 //Responsibility: Handle authentication services
 class AuthenticationBloc extends Bloc<AuthEvent, AuthState> {
@@ -28,7 +26,8 @@ class AuthenticationBloc extends Bloc<AuthEvent, AuthState> {
 
     //create account
     on<AuthEventSignup>((event, emit) async {
-      emit(AuthStateLoggedOut(loading: true, exception: null));
+      emit(AuthStateLoggedOut(
+          loading: true, exception: null, loadingText: 'In Progress...'));
 
       try {
         final email = event.email;
@@ -37,7 +36,6 @@ class AuthenticationBloc extends Bloc<AuthEvent, AuthState> {
         await provider.signup(email: email, password: password);
         await provider.verifyEmail();
         emit(AuthStateLoggedOut(loading: false, exception: null));
-        // emit(AuthStateLoggedIn());
       } on Exception catch (e) {
         emit(AuthStateLoggedOut(loading: false, exception: e));
       }
@@ -48,7 +46,7 @@ class AuthenticationBloc extends Bloc<AuthEvent, AuthState> {
       emit(AuthStateLoggedOut(
         loading: true,
         exception: null,
-        loadingText: 'Please wait while i log you in',
+        loadingText: 'Sign in progress...',
       ));
 
       try {
